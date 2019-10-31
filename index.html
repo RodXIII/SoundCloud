@@ -1,0 +1,76 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RodriCloud</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+    <center>
+        <img src="./img/cassette.png" class="cassette">
+        <div class="top">
+            <div class="styles coloring">RodriCluod</div>
+        </div>
+    </center>
+    <h2>Type any of these: A name, song, title and then click submit request and you might get a surprise.</h2>
+    <form id="myForm">
+        <p>Track information:</p><input id="input" class="inputBox" type="text"
+            placeholder="Type here then click Submit request">
+        <div class="submitBtn"><input type="submit" value="Submit request" /></div>
+    </form>
+
+    <br>
+
+    <div id="description"></div>
+    <img id="artwork" />
+
+    <center>
+        <p>Volume: </p>
+        <input type="range" class="volumeStyle" id="vol-control" min="0" max="100" value="100" step="1"
+            oninput="SetVolume(this.value)" onchange="setVolume(this.value)"></input>
+    </center>
+
+    <br>
+    <div class="wrapper">
+
+        <p>Controls: </p>
+
+        <button id="playBtn" type="button" class="button">PLAY</button>
+
+        <button id="pauseBtn" type="button" class="button">PAUSE</button>
+
+        <button id="stopBtn" type="button" class="button">STOP</button>
+
+        <button id="forwardBtn" type="button" class="button">NEXT</button>
+
+        <button id="rewindBtn" type="button" class="button">PREVIOUS</button>
+    </div>
+
+    <p class="copyright">2019. RodriCloud. All Rights Reserved.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://connect.soundcloud.com/sdk/sdk-3.3.2.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
