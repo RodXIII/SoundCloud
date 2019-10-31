@@ -1,4 +1,44 @@
+let tracks, players = [];
 
+//Cargar Pagina
+document.addEventListener("DOMContentLoaded", function (event) {
+
+  //Boton Play
+  document.getElementById("playBtn").addEventListener("click", function () {
+    playTrack(currentSong);
+    console.log("test")
+  });
+
+  //BotonPause
+  document.getElementById("pauseBtn").addEventListener("click", function () {
+    players[currentSong].pause();
+  });
+
+  //Boton Stop
+  document.getElementById("stopBtn").addEventListener("click", function () {
+    players[currentSong].pause();
+    players[currentSong].seek(0);
+  });
+
+  //Boton Next
+  document.getElementById("forwardBtn").addEventListener("click", function () {
+    currentSong++;
+    if (currentSong >= tracks.length) {
+      currentSong = 0;
+    }
+    playTrack(currentSong);
+  });
+
+  //Boton Previous
+  document.getElementById("rewindBtn").addEventListener("click", function () {
+    currentSong--;
+    if (currentSong <0) {
+      currentSong = tracks.length-1;
+    }
+    playTrack(currentSong);
+  });
+
+})
 
 
 
