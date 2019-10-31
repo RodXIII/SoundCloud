@@ -32,13 +32,106 @@ document.addEventListener("DOMContentLoaded", function (event) {
   //Boton Previous
   document.getElementById("rewindBtn").addEventListener("click", function () {
     currentSong--;
-    if (currentSong <0) {
-      currentSong = tracks.length-1;
+    if (currentSong < 0) {
+      currentSong = tracks.length - 1;
     }
     playTrack(currentSong);
   });
 
+});
+
+///////////////////////////
+
+
+SC.initialize({
+  client_id: 'aa06b0630e34d6055f9c6f8beb8e02eb',
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("content loaded")
+  document.querySelector("form").addEventListener("submit", function (event) {
+    event.preventDefault()
+    console.log(event)
+    SC.get("/tracks", {
+      q: document.getElementById("input").value
+    }).then(function (response) {
+      console.log(response);
+      tracks = response;
+      document.getElementById("description").innerHTML = tracks[currentSong].title + tracks[currentSong].genre + tracks[currentSong].permalink + tracks[currentSong].description
+      document.getElementById("artwork").src = tracks[currentSong].artwork_url || "http://" + q + ".jpg.to"
+      playTrack(currentSong);
+    });
+  });
 })
+
+let localTracks = [46833586, 46834546]
+let currentSong = 0;
+
+function playTrack(songId) {
+  document.getElementById("description").innerHTML = tracks[currentSong].title + " . " + "Genre: " + tracks[currentSong].genre + " . " + " Permalink" + tracks[currentSong].permalink + " . "
+
+  if (!players[songId]) {
+    SC.stream('/tracks/' + tracks[songId].id).then(function (player) {
+      console.log(player);
+      players[songId] = player;
+      players[songId].play();
+    });
+  } else {
+    players[songId].play();
+  }
+
+}
+
+function stopAudio() {
+  players[currentSong].seek(0);
+  players[currentSong].pause();
+}
+
+function playAudio() {
+  players[currentSong].play();
+}
+
+function pauseAudio() {
+  players[currentSong].pause();
+}
+
+function forwardAudio() {
+  stopAudio();
+  currentSong += 1;
+  players[currentSong].play();
+};
+
+function rewindAudio() {
+  stopAudio();
+  currentSong =- 1;
+  players[currentSong].play();
+  currentSong
+}
+
+function setVolume(val) {
+  let player =tracks(currentSong);
+  player.volume = val/100;
+  console.log('After: ' + player.volume);
+  players[currentSong].setVolume(player.volume);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -49,9 +142,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 /* function Busqueda() {
   $('.lista').empty(); //Limpiamos la lista.
   var autor = $('input').val();
-  SC.initialize({
-    client_id: 'aa06b0630e34d6055f9c6f8beb8e02eb',
-  });
+
   SC.get('/tracks', {
     q: autor,
   }).then(function (tracks) {

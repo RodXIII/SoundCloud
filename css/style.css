@@ -7,7 +7,7 @@ body {
     background: dimgray;
 }
 
-nav {
+/* nav {
     position: fixed;
     display: flex;
     width: 100vw;
@@ -21,4 +21,4 @@ nav {
     display: inline;
     text-justify: center;
     padding-left: 40px;
-}
+} */
