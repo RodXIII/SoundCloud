@@ -11,12 +11,12 @@
 <body>
 
     <center>
-        <img src="./img/cassette.png" class="cassette">
         <div class="top">
             <div class="styles coloring">RodriCloud</div>
+            <img src="./img/cassette.png" class="cassette">
         </div>
     </center>
-    <h2>Type any of these: A name, song, title and then click submit request and you might get a surprise.</h2>
+    <h2>Type a song title or artist and then click submit request.</h2>
     <form id="myForm">
         <p>Track information:</p><input id="input" class="inputBox" type="text"
             placeholder="Type here then click Submit request">
@@ -26,12 +26,19 @@
     <br>
 
     <div id="description"></div>
-    <img id="artwork" />
 
     <center>
-        <p>Volume: </p>
-        <input type="range" class="volumeStyle" id="vol-control" min="0" max="100" value="100" step="1"
-            oninput="SetVolume(this.value)" onchange="setVolume(this.value)"></input>
+        <div class="vol">
+            <p>Volume: </p>
+            <input type="range" class="volumeStyle" id="vol-control" min="0" max="100" value="100" step="1"
+                oninput="SetVolume(this.value)" onchange="setVolume(this.value)" />
+        </div>
+
+        <div id="drop_zone" class="tray" ondragover = "letDrop(event)" ondrop = "drop(event)">
+            <p>Drop here!</p>
+        </div>
+        <div id="descriptionCurrent"></div>
+
     </center>
 
     <br>

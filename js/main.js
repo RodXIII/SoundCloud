@@ -57,69 +57,102 @@ document.addEventListener("DOMContentLoaded", function () {
     }).then(function (response) {
       console.log(response);
       tracks = response;
-      document.getElementById("description").innerHTML = tracks[currentSong].title + tracks[currentSong].genre + tracks[currentSong].permalink + tracks[currentSong].description
-      document.getElementById("artwork").src = tracks[currentSong].artwork_url || "http://" + q + ".jpg.to"
-      playTrack(currentSong);
+      let list = document.getElementById("description")
+
+      let itemList = ''
+
+      for (const currentSong in tracks) {
+        itemList += `<div id = "${tracks[currentSong].permalink_url}"class = "item" draggable="true" ondragstart='drag(event)' >
+        <div class= "title"> ${tracks[currentSong].title}</div> 
+        <div class = "genre">${tracks[currentSong].genre}</div>
+        <div class="extraInfo"> ${tracks[currentSong].description} </div>  
+        <img class = "image" src="${tracks[currentSong].artwork_url}" alt = "Ups! No hay imagen!"><
+        /div>`
+
+      }
+      list.innerHTML = itemList
+
+
+      //playTrack(currentSong);
     });
   });
 })
 
-let localTracks = [46833586, 46834546]
-let currentSong = 0;
+async function drop(event) {
 
-function playTrack(songId) {
-  document.getElementById("description").innerHTML = tracks[currentSong].title + " . " + "Genre: " + tracks[currentSong].genre + " . " + " Permalink" + tracks[currentSong].permalink + " . "
+  // event.preventDefault();
+  // track_url = event.dataTransfer.getData('data');
+  // zonaDeDrop = '<h2>Arrastra la cancion aqui para reproducirla.</h2>';
+  // await SC.oEmbed(track_url, { auto_play: true })
+  //     .then(function(oEmbed) {
+  //     const reproductorEmbebido=oEmbed.html;
+  //     $('#reproductor').html(reproductorEmbebido);
+  //     $('#reproductor').append(zonaDeDrop);
 
-  if (!players[songId]) {
-    SC.stream('/tracks/' + tracks[songId].id).then(function (player) {
-      console.log(player);
-      players[songId] = player;
-      players[songId].play();
-    });
-  } else {
-    players[songId].play();
+  playTrack(currentSong);
+  //     })
+
+  function letDrop(event) {
+
+    event.preventDefault();
   }
 
-}
+  function drag(event) {
 
-function stopAudio() {
-  players[currentSong].seek(0);
-  players[currentSong].pause();
-}
+    event.dataTransfer.setData('data', event.target.id);
 
-function playAudio() {
-  players[currentSong].play();
-}
+  }
 
-function pauseAudio() {
-  players[currentSong].pause();
-}
+  let localTracks = [46833586, 46834546]
+  let currentSong = 0;
 
-function forwardAudio() {
-  stopAudio();
-  currentSong += 1;
-  players[currentSong].play();
-};
+  function playTrack(songId) {
+    document.getElementById("currentDescription").innerHTML = tracks[currentSong].title + " . " + "Genre: " + tracks[currentSong].genre
+    document.getElementById("currentArt").src = tracks[currentSong].artwork_url || "http://" + q + ".jpg.to"
+    if (!players[songId]) {
+      SC.stream('/tracks/' + tracks[songId].id).then(function (player) {
+        console.log(player);
+        players[songId] = player;
+        players[songId].play();
+      });
+    } else {
+      players[songId].play();
+    }
 
-function rewindAudio() {
-  stopAudio();
-  currentSong =- 1;
-  players[currentSong].play();
-  currentSong
-}
+  }
 
-function setVolume(val) {
-  let player =tracks(currentSong);
-  player.volume = val/100;
-  console.log('After: ' + player.volume);
-  players[currentSong].setVolume(player.volume);
-}
+  function stopAudio() {
+    players[currentSong].seek(0);
+    players[currentSong].pause();
+  }
 
+  function playAudio() {
+    players[currentSong].play();
+  }
 
+  function pauseAudio() {
+    players[currentSong].pause();
+  }
 
+  function forwardAudio() {
+    stopAudio();
+    currentSong += 1;
+    players[currentSong].play();
+  };
 
+  function rewindAudio() {
+    stopAudio();
+    currentSong = - 1;
+    players[currentSong].play();
+    currentSong
+  }
 
-
+  function setVolume(val) {
+    let player = tracks[currentSong];
+    player.volume = val / 100;
+    console.log('After: ' + player.volume);
+    players[currentSong].setVolume(player.volume);
+  }
 
 
 
