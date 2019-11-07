@@ -1,46 +1,49 @@
-let tracks, players = [];
+let tracks = [];
+let currentPlayer;
+let playList = [];
+
 
 //Cargar Pagina
 document.addEventListener("DOMContentLoaded", function (event) {
 
   //Boton Play
   document.getElementById("playBtn").addEventListener("click", function () {
-    playTrack(currentSong);
+    playTrack(playList[listNumber]);
     console.log("test")
   });
 
   //BotonPause
   document.getElementById("pauseBtn").addEventListener("click", function () {
-    players[currentSong].pause();
+    currentPlayer.pause();
   });
 
   //Boton Stop
   document.getElementById("stopBtn").addEventListener("click", function () {
-    players[currentSong].pause();
-    players[currentSong].seek(0);
+    currentPlayer.pause();
+    currentPlayer.seek(listNumber = 0);
   });
 
   //Boton Next
   document.getElementById("forwardBtn").addEventListener("click", function () {
-    currentSong++;
-    if (currentSong >= tracks.length) {
-      currentSong = 0;
+    listNumber++;
+    if (listNumber >= playList.length) {
+      listNumber = 0;
     }
-    playTrack(currentSong);
+    playTrack(playList[listNumber]);
   });
 
   //Boton Previous
   document.getElementById("rewindBtn").addEventListener("click", function () {
-    currentSong--;
-    if (currentSong < 0) {
-      currentSong = tracks.length - 1;
+    listNumber--;
+    if (listNumber < 0) {
+      listNumber = playList.length - 1;
     }
-    playTrack(currentSong);
+    playTrack(playList[listNumber]);
   });
-
 });
 
-///////////////////////////
+
+//////////////////////////////////////////////////////////////
 
 
 SC.initialize({
@@ -51,150 +54,100 @@ document.addEventListener("DOMContentLoaded", function () {
   console.log("content loaded")
   document.querySelector("form").addEventListener("submit", function (event) {
     event.preventDefault()
-    console.log(event)
     SC.get("/tracks", {
       q: document.getElementById("input").value
+
     }).then(function (response) {
-      console.log(response);
+
       tracks = response;
       let list = document.getElementById("description")
-
       let itemList = ''
 
-      for (const currentSong in tracks) {
-        itemList += `<div id = "${tracks[currentSong].permalink_url}"class = "item" draggable="true" ondragstart='drag(event)' >
-        <div class= "title"> ${tracks[currentSong].title}</div> 
-        <div class = "genre">${tracks[currentSong].genre}</div>
-        <div class="extraInfo"> ${tracks[currentSong].description} </div>  
-        <img class = "image" src="${tracks[currentSong].artwork_url}" alt = "Ups! No hay imagen!"><
-        /div>`
+      for (const currentSong of tracks) {
+        if (currentSong.artwork_url != null) {
+          itemList += `<div id = "${currentSong.id}" class = "item" draggable="true" ondragstart='drag(event)' >
+                            <div class= "title"> ${currentSong.title}</div> 
+                            <div class = "genre">${currentSong.genre}</div>
+                            <div class="extraInfo"> ${currentSong.description} </div>  
+                            <img class = "image" src="${currentSong.artwork_url}" alt = "Ups! Image not found!">
+                      </div>`
+        } else {
+          itemList += `<div id = "${currentSong.id}" class = "item" draggable="true" ondragstart='drag(event)' >
+                            <div class= "title"> ${currentSong.title}</div> 
+                            <div class = "genre">${currentSong.genre}</div>
+                            <div class="extraInfo"> ${currentSong.description} </div>  
+                            <img class = "image" src="./img/no-image-found1.jpg" alt = "Ups! Image not found!">
+                      </div>`
+        }
 
       }
       list.innerHTML = itemList
-
-
-      //playTrack(currentSong);
     });
   });
 })
 
-async function drop(event) {
+function letDrop(event) {
 
-  // event.preventDefault();
-  // track_url = event.dataTransfer.getData('data');
-  // zonaDeDrop = '<h2>Arrastra la cancion aqui para reproducirla.</h2>';
-  // await SC.oEmbed(track_url, { auto_play: true })
-  //     .then(function(oEmbed) {
-  //     const reproductorEmbebido=oEmbed.html;
-  //     $('#reproductor').html(reproductorEmbebido);
-  //     $('#reproductor').append(zonaDeDrop);
+  event.preventDefault();
+}
 
-  playTrack(currentSong);
-  //     })
+function drag(event) {
 
-  function letDrop(event) {
+  event.dataTransfer.setData('data', event.target.id);
+}
 
-    event.preventDefault();
-  }
+function drop(event) {
 
-  function drag(event) {
+  event.preventDefault();
 
-    event.dataTransfer.setData('data', event.target.id);
+  let trackId = event.dataTransfer.getData('data');
+  let iData = document.getElementById(trackId)
+  event.target.appendChild(iData.cloneNode(true))
 
-  }
+  playTrack(trackId);
+  playList.push(trackId);
+}
 
-  let localTracks = [46833586, 46834546]
-  let currentSong = 0;
+let listNumber = 0;
 
-  function playTrack(songId) {
-    document.getElementById("currentDescription").innerHTML = tracks[currentSong].title + " . " + "Genre: " + tracks[currentSong].genre
-    document.getElementById("currentArt").src = tracks[currentSong].artwork_url || "http://" + q + ".jpg.to"
-    if (!players[songId]) {
-      SC.stream('/tracks/' + tracks[songId].id).then(function (player) {
-        console.log(player);
-        players[songId] = player;
-        players[songId].play();
-      });
-    } else {
-      players[songId].play();
-    }
+function playTrack(songId) {
 
-  }
+  SC.stream('/tracks/' + songId).then(function (player) {
 
-  function stopAudio() {
-    players[currentSong].seek(0);
-    players[currentSong].pause();
-  }
-
-  function playAudio() {
-    players[currentSong].play();
-  }
-
-  function pauseAudio() {
-    players[currentSong].pause();
-  }
-
-  function forwardAudio() {
-    stopAudio();
-    currentSong += 1;
-    players[currentSong].play();
-  };
-
-  function rewindAudio() {
-    stopAudio();
-    currentSong = - 1;
-    players[currentSong].play();
-    currentSong
-  }
-
-  function setVolume(val) {
-    let player = tracks[currentSong];
-    player.volume = val / 100;
-    console.log('After: ' + player.volume);
-    players[currentSong].setVolume(player.volume);
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* function Busqueda() {
-  $('.lista').empty(); //Limpiamos la lista.
-  var autor = $('input').val();
-
-  SC.get('/tracks', {
-    q: autor,
-  }).then(function (tracks) {
-    var numero = 0;
-    if (tracks.length > 12) {
-      numero = 12;
-    } else {
-      numero = tracks.length;
-    }
-    for (var i = 0; i < numero; i++) {
-      if (tracks[i].artwork_url !== null) {
-        $('.lista').append(
-          "<div class='imagen_mini col-xs-2'><img src='" +
-          tracks[i].artwork_url +
-          "' id ='" +
-          tracks[i].id +
-          "' draggable='true' ondragstart='drag(event)'></div>"
-        );
-      }
-    }
+    currentPlayer = player;
+    player.play();
   });
-} */
+}
+
+function stopAudio() {
+  playList[listNumber].seek(0);
+  playList[listNumber].pause();
+}
+
+function playAudio() {
+  playList[listNumber].play();
+}
+
+function pauseAudio() {
+  playList[listNumber].pause();
+}
+
+function forwardAudio() {
+  stopAudio();
+  listNumber += 1;
+  playList[listNumber].play();
+}
+
+function rewindAudio() {
+  stopAudio();
+  listNumber = - 1;
+  playList[listNumber].play();
+  listNumber
+}
+
+function setVolume(val) {
+  let player = currentPlayer;
+  player.volume = val / 100;
+  console.log('After: ' + player.volume);
+  currentPlayer.setVolume(player.volume);
+}
