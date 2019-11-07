@@ -10,47 +10,54 @@
 
 <body>
 
-    <div class="top">
-        <div class="styles coloring">
-            <h1>RodriCloud</h1>
+    <center>
+        <div class="top">
+            <h1 class="styles coloring">RodriCloud</h1>
         </div>
-        <img src="./img/cassette.png" class="cassette">
-    </div>
-    
-    <div class="browser">
-        <h2>Type a song title or artist and then click submit request.</h2>
-        <form id="myForm">
-            <p>Track information:</p><input id="input" class="inputBox" type="text"
-                placeholder="Type here then click Submit request">
-            <div class="submitBtn"><input type="submit" value="Submit request" /></div>
-        </form>
         <br>
+        <div class="browser">
+            <img src="./img/cassette.png" class="cassette">
+            <div class="browser2">
+                <div>
+                    <h2>Type a song title or artist and then click submit request.</h2>
+                </div>
+                <div>
+                    <form id="myForm">
+                        <input id="input" class="inputBox" type="text"
+                            placeholder="Type here then click Submit request">
+                        <div class="submitBtn"><input type="submit" value="Submit request" /></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <br>
+        <p>Track information:</p>
         <div id="description"></div>
-    </div>
-
-    <div class="repr">
-        <div class="setList">
-            <div class="vol">
-                <p>Volume: </p>
-                <input type="range" class="volumeStyle" id="vol-control" min="0" max="100" value="100" step="1"
-                    oninput="SetVolume(this.value)" onchange="setVolume(this.value)" />
+        <div class="repr">
+            <div class="setList">
+                <div id="drop_zone" class="tray" ondragover="letDrop(event)" ondrop="drop(event)">
+                        <p>Drop here!</p>
+                    </div>
+                    
+                    <div class="wrapper">
+                        <p>Controls: </p>
+                        <button id="playBtn" type="button" class="button">PLAY</button>
+                        <button id="pauseBtn" type="button" class="button">PAUSE</button>
+                        <button id="stopBtn" type="button" class="button">STOP</button>
+                        <button id="forwardBtn" type="button" class="button">NEXT</button>
+                        <button id="rewindBtn" type="button" class="button">PREVIOUS</button>
+                    </div>
+                    
+                    <div class="vol">
+                        <p>Volume: </p>
+                        <input type="range" class="volumeStyle" id="vol-control" min="0" max="100" value="100" step="1"
+                            oninput="SetVolume(this.value)" onchange="setVolume(this.value)" />
+                    </div>
             </div>
-            <br>
-            <div id="drop_zone" class="tray" ondragover="letDrop(event)" ondrop="drop(event)">
-                <p>Drop here!</p>
-            </div>
-        </div>
-        <br>
-        <div class="wrapper">
-            <p>Controls: </p>
-            <button id="playBtn" type="button" class="button">PLAY</button>
-            <button id="pauseBtn" type="button" class="button">PAUSE</button>
-            <button id="stopBtn" type="button" class="button">STOP</button>
-            <button id="forwardBtn" type="button" class="button">NEXT</button>
-            <button id="rewindBtn" type="button" class="button">PREVIOUS</button>
-        </div>
-    </div>
 
+
+        </div>
+    </center>
     <div class="foot">
         <p class="copyright">2019. RodriCloud. All Rights Reserved.</p>
     </div>
