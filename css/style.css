@@ -44,7 +44,7 @@ body {
     -2px -1px 0 #000;
 }
 
-h2 {
+h2, .tray {
     color: white;
     font-size: 20px;
     text-shadow: 1px 1px 0 #000,
@@ -72,8 +72,11 @@ h2 {
     2px -1px 0 #000,
     -2px -1px 0 #000;
     text-align: center;
+    text-justify: auto;
 
 }
+
+
 
 #myForm {
     text-align: center;
@@ -145,6 +148,11 @@ input[type=range]::-webkit-slider-runnable-track {
     border: 0.1px solid #f1f1f1;
 }
 
+input[type=range]{
+    -webkit-appearance: none;
+    margin: 15px 0;
+}
+
 input[type=range]:focus {
     outline: none;
 }
@@ -157,6 +165,9 @@ input[type=range]::-webkit-slider-runnable-track {
     border-radius: 5px;
     border: 1px solid #f1f1f1;
 }
+
+
+
 
 input[type=range]::-webkit-slider-thumb {
     height: 40px;
@@ -174,16 +185,45 @@ input[type=range]:focus::-webkit-slider-runnable-track{
     background: rgba(95, 95, 95, 0.75);
 }
 
+.tray {
+    border: 2px solid white;
+    border-radius: 15px;
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.text {
+    font-size: 36px;
+    background-image: -webkit-linear-gradient(white, goldenrod, black);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
 
-
+.results {
+    display: flex;
+}
 
 
 
 #description{
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);   
 }
 
+#setList {
+    display: grid; 
+    grid-template-columns: repeat(10, 1fr);
+    border: 2px solid white;
+    border-radius: 15px;
+    margin: 10px;
+    padding: 10px;
+    background: white;
+}
 
 
 

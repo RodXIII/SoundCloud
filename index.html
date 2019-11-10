@@ -31,28 +31,33 @@
             </div>
         </div>
         <br>
-        <p>Track information:</p>
+        <p class="text">Your search:</p>
+        <br>
+
+        <div class="results">
         <div id="description"></div>
+        <div id="drop_zone" class="tray" ondragover="letDrop(event)" ondrop="drop(event)">
+                <p>Drop here to add to playlist!</p>
+              </div>
+        </div>
+
         <div class="repr">
-            <div class="setList">
-                <div id="drop_zone" class="tray" ondragover="letDrop(event)" ondrop="drop(event)">
-                        <p>Drop here!</p>
-                    </div>
-                    
-                    <div class="wrapper">
-                        <p>Controls: </p>
-                        <button id="playBtn" type="button" class="button">PLAY</button>
-                        <button id="pauseBtn" type="button" class="button">PAUSE</button>
-                        <button id="stopBtn" type="button" class="button">STOP</button>
-                        <button id="forwardBtn" type="button" class="button">NEXT</button>
-                        <button id="rewindBtn" type="button" class="button">PREVIOUS</button>
-                    </div>
-                    
-                    <div class="vol">
-                        <p>Volume: </p>
-                        <input type="range" class="volumeStyle" id="vol-control" min="0" max="100" value="100" step="1"
-                            oninput="SetVolume(this.value)" onchange="setVolume(this.value)" />
-                    </div>
+            <p class="text">Playlist:</p>
+
+            <div id="setList"></div>
+
+            <div class="wrapper">
+                <button id="playBtn" type="button" class="button">PLAY</button>
+                <button id="pauseBtn" type="button" class="button">PAUSE</button>
+                <button id="stopBtn" type="button" class="button">STOP</button>
+                <button id="forwardBtn" type="button" class="button">NEXT</button>
+                <button id="rewindBtn" type="button" class="button">PREVIOUS</button>
+            </div>
+
+            <div class="vol text">
+                <p>Volume: </p>
+                <input type="range" class="volumeStyle" id="vol-control" min="0" max="100" value="100" step="1"
+                    oninput="SetVolume(this.value)" onchange="setVolume(this.value)" />
             </div>
 
 

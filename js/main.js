@@ -65,19 +65,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
       for (const currentSong of tracks) {
         if (currentSong.artwork_url != null) {
-          itemList += `<div id = "${currentSong.id}" class = "item" draggable="true" ondragstart='drag(event)' >
-                            <div class= "title"> ${currentSong.title}</div> 
-                            <div class = "genre">${currentSong.genre}</div>
-                            <div class="extraInfo"> ${currentSong.description} </div>  
-                            <img class = "image" src="${currentSong.artwork_url}" alt = "Ups! Image not found!">
-                      </div>`
+          itemList += `
+          <div id = "${currentSong.id}" class = "item" draggable="true" ondragstart='drag(event)' >
+            <img class = "image" src="${currentSong.artwork_url}" alt = "Ups! Image not found!">
+            <div class= "title"> ${currentSong.title}</div> 
+            <div class = "genre">${currentSong.genre}</div>
+          </div>`
         } else {
-          itemList += `<div id = "${currentSong.id}" class = "item" draggable="true" ondragstart='drag(event)' >
-                            <div class= "title"> ${currentSong.title}</div> 
-                            <div class = "genre">${currentSong.genre}</div>
-                            <div class="extraInfo"> ${currentSong.description} </div>  
-                            <img class = "image" src="./img/no-image-found1.jpg" alt = "Ups! Image not found!">
-                      </div>`
+          itemList += `
+          <div id = "${currentSong.id}" class = "item" draggable="true" ondragstart='drag(event)' >
+            <img class = "image" src="./img/no-image-found1.jpg" alt = "Ups! Image not found!">
+            <div class= "title"> ${currentSong.title}</div> 
+            <div class = "genre">${currentSong.genre}</div>
+          </div>`
         }
 
       }
@@ -97,12 +97,13 @@ function drag(event) {
 }
 
 function drop(event) {
-
+  let setList = document.getElementById('setList')
   event.preventDefault();
 
   let trackId = event.dataTransfer.getData('data');
   let iData = document.getElementById(trackId)
-  event.target.appendChild(iData.cloneNode(true))
+  let setListGen = event.target.appendChild(iData.cloneNode(true))
+  setList.appendChild(setListGen)
 
   playTrack(trackId);
   playList.push(trackId);
